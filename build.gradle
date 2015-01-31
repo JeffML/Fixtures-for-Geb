@@ -1,0 +1,78 @@
+apply plugin: "groovy"
+apply plugin: "idea"
+apply plugin: "eclipse"
+
+repositories {
+	mavenCentral()
+	//jcenter()
+}
+
+configurations {
+	testCompile.transitive = true
+}
+
+// The drivers we want to use
+ext {
+	drivers = ["chrome", "firefox"] 
+
+	ext {
+		groovyVersion = '2.3.6'
+		gebVersion = '0.10.0'
+		seleniumVersion = '2.44.0'
+		chromeDriverVersion = '2.13'
+	}
+}
+
+dependencies {
+	System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver")
+
+	// If using JUnit, need to depend on geb-junit (3 or 4)
+	testCompile "org.gebish:geb-junit4:$gebVersion"
+	testCompile "junit:junit-dep:4.11"
+
+	// Drivers
+	drivers.each { driver ->
+			testCompile "org.seleniumhq.selenium:selenium-$driver-driver:$seleniumVersion"
+			testCompile "org.seleniumhq.selenium:selenium-support:$seleniumVersion"
+	}
+}
+
+tasks.withType(GroovyCompile) {
+	configure(groovyOptions.forkOptions) {
+	  memoryMaximumSize = '1g'
+	  jvmArgs = ['-XX:MaxPermSize=512m', '-Xms1024m', '-Xmx1g']
+	}
+}
+
+
+drivers.each { driver ->
+	def testSingle = System.getProperty("test.single")
+	if (testSingle) System.setProperty("${driver}Test.single", testSingle)
+	
+	def hostUrl = System.getProperty("host.url", "http://dev.mavericklabel.com")
+
+	
+	task "${driver}Test"(type: Test) {
+		reports.html.destination = file("$name/tests")
+		reports.junitXml.destination = file("$buildDir/test-results/$name")
+		
+		testLogging {
+			stackTraceFilters "groovy"
+			showStandardStreams false    //makes the standard streams (err and out) visible at console when running tests
+		}
+
+		systemProperty "geb.build.reportsDir", reporting.file("$name/geb")
+		systemProperty "geb.env", driver
+		systemProperty "geb.build.baseUrl", hostUrl
+	}
+}
+
+
+test {
+	dependsOn drivers.collect { tasks["${it}Test"] }
+	enabled=false;
+}
+
+
+
+
