@@ -9,14 +9,14 @@ class Example {
 				entry1: [
 					isActive: true,
 					fields: [
-						style: [name: '147[]', valueToSet: 7462],	//AC-302
-						proof: [name: '64[]', valueToSet: '482'],	//online
-						quantity: [name: 'qty[]', valueToSet: '500']
+						style: [name: '147[]', value: 7462],	//AC-302
+						proof: [name: '64[]', value: '482'],	//online
+						quantity: [name: 'qty[]', value: '500']
 					],
 					result:[
 						isActive: true,
 						fields: [
-							Style: [text: "AC-302 - Appointment Card with Heart Sticker", isShownInCart: false],
+							Style: [text: "AC-302 - Appointment Card with Heart Sticker"],
 							Color: [text: 'CMYK'],
 							Proof: [text: 'Digital Proof']
 						]

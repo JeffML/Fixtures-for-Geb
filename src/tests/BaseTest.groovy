@@ -39,13 +39,5 @@ class BaseTest extends GebReportingTest {
 		driver.manage().window().setPosition(new Point(0, 0));
 		driver.manage().window().setSize(new Dimension(1200, 1000));
 		super.setupReporting();
-		
-		to HomePage
-		at HomePage
-		
-		((JavascriptExecutor)driver).executeScript("document.cookie='motd=true'")
-		((JavascriptExecutor)driver).executeScript("document.cookie='flum=floo'")
 	}
-
-
 }

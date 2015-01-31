@@ -11,6 +11,7 @@ import org.openqa.selenium.WebDriver
 
 import fixtures.Example
 import tests.BaseTest
+import pages.AnyPage
 import geb.*
 import geb.junit4.*
 
@@ -31,8 +32,8 @@ abstract class FixturedTest extends BaseTest {
 	//@Override
 	@Before
 	void setup() {
-		CustomPageWithQuoterTab.url = this.page.url
-		CustomPageWithQuoterTab.titleText = this.page.title
+		AnyPage.url = this.page.url
+		AnyPage.titleText = this.page.title
 	}
 	
 	FixturedTest(key, url, page_) {
@@ -51,7 +52,7 @@ abstract class FixturedTest extends BaseTest {
 			doSelectorAction(field)
 		} else {
 			try {
-				form[field.name] = field.valueToSet
+				form[field.name] = field.value
 			}
 			catch (org.openqa.selenium.ElementNotVisibleException e) {
 				throw new Exception("Exception accessing field $field.name", e)
@@ -87,4 +88,12 @@ abstract class FixturedTest extends BaseTest {
 			}
 		}
 	}
+	
+	protected loadEntrySet(key, eset) {
+		eset.fields.each { name, field -> populateField(name, field) }
+	}
+	
+	protected readResultSet(key, rset) {
+	}
+	
 }
