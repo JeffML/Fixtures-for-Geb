@@ -17,37 +17,7 @@ import org.openqa.selenium.logging.LogEntries
 import org.openqa.selenium.logging.LogEntry
 import org.openqa.selenium.logging.LogType
 
-import page.AdminPage
-import page.HomePage
-
 class BaseTest extends GebReportingTest {
-	def doLogin = {loginInfo ->
-		def isAdmin = loginInfo.type == 'admin'
-
-		if (isAdmin) {
-			to AdminPage
-		} else if (loginInfo.type == 'home') {
-			to HomePage
-			login.login.click()
-			waitFor {login.password.isDisplayed()}
-		} else {
-			waitFor 10, {login.login.isDisplayed()}
-			login.login.click()
-			waitFor {login.password.isDisplayed()}
-		}
-
-		login.username = loginInfo.username
-
-		try {
-			login.password = loginInfo.password
-		} catch (e) {
-			//bug? ignoring this does no harm
-			// println e.getMessage()
-		}
-
-		login.signin.click()
-		waitFor(5, message: "could not signin", 10) {isAdmin? $('span.big_red_title') : login.hello}
-	}
 
 	def dumpJavascriptConsoleLog = {
 		WebDriver driver = browser.getDriver()
