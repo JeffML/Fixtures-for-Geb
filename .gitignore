@@ -2,3 +2,11 @@ gradle.properties
 gradlew
 gradlew.bat
 gradle
+bin
+.gradle
+.settings
+.classpath
+.DS_Store
+.project
+.classpath
+.project
