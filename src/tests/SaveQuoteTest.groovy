@@ -1,17 +1,13 @@
 package tests
 
 import static org.junit.Assert.*
-
-import java.util.Collection;
-
 import geb.*
 import geb.junit4.*
 
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
-import org.junit.runners.Parameterized.Parameters
-
+import pages.AnyPage
 
 
 @RunWith(Parameterized.class)
@@ -22,7 +18,18 @@ class SaveQuoteTest extends FixturedTest {
 	
 	@Test
 	void testSaveQuote() {
+		
 		def fixtures = this.page.fixtures;
+		
+		fixtures.each {key, eset ->
+			if (eset.isActive) {
+				loadEntrySet(key, eset);
+				
+				if (eset.result && eset.result.isActive) {
+					readResultSet(key, eset.result)
+				}
+			}
+		}
 /*
 		quoteInfoSets.each { key, qset ->
 			def dset = dataSets[key]

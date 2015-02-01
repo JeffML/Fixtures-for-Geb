@@ -2,7 +2,7 @@ package fixtures
 
 class Example {
 	static def pages = [
-		"Appointment Cards" [
+		"Appointment Cards": [
 			url: "/products/appointment-label-cards.html",
 			title: "Label Cards and Calendar Stickers - Easy & Secure Online Ordering",
 			fixtures: [

@@ -25,7 +25,7 @@ abstract class FixturedTest extends BaseTest {
 	 */
 	@Parameters(name = "{0}: {1}")
 	public static Collection<Object[]> getPages() {
-		pages = Example.pages.collect {[it.key, it.value.url, it.value]}
+		def pages = Example.pages.collect {[it.key, it.value.url, it.value]}
 		return pages as Object[][];
 	}
 	
@@ -90,6 +90,8 @@ abstract class FixturedTest extends BaseTest {
 	}
 	
 	protected loadEntrySet(key, eset) {
+		to AnyPage
+		at AnyPage
 		eset.fields.each { name, field -> populateField(name, field) }
 	}
 	
