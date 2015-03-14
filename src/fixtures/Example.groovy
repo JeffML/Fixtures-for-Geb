@@ -2,7 +2,7 @@ package fixtures
 
 class Example {
 	static def fixtures = [
-		[
+		"Appointment Card": [
 			isActive: true,
 			inputs: [
 				url: "/products/appointment-label-cards-prices.html",
@@ -17,7 +17,7 @@ class Example {
 				[
 					preAction: {},
 					gleaner: {},
-					values: [
+					expected: [
 						Style: "AC-302 - Appointment Card with Heart Sticker",
 						Color: 'CMYK',
 						Proof: 'Digital Proof'

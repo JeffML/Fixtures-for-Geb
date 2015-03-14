@@ -3,29 +3,46 @@ package tests
 import static org.junit.Assert.*
 
 import org.junit.Before
+import org.junit.runners.Parameterized
+import org.junit.runners.Parameterized.Parameters
 import org.openqa.selenium.JavascriptExecutor
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver
 
+import fixtures.Example
 import tests.BaseTest
 import pages.AnyPage
 import geb.*
 import geb.junit4.*
 
-abstract class FixturedTest extends BaseTest {
+abstract class CopyOfFixturedTest extends BaseTest {
 	def page;
 	def name;
 
-	@Before
-	void setup(url, title) {
-		AnyPage.url = url
-		AnyPage.titleText = title
+	/**
+	 * Determines the parameters for this test. 
+	 * @return The parameters for each iteration of the test
+	 */
+	@Parameters(name = "{0}: {1}")
+	public static Collection<Object[]> getPages() {
+		def pages = Example.pages.collect {[it.key, it.value.url, it.value]}
+		return pages as Object[][];
 	}
 	
-	FixturedTest() {
+	//@Override
+	@Before
+	void setup() {
+		AnyPage.url = this.page.url
+		AnyPage.titleText = this.page.title
+	}
+	
+	FixturedTest(key, url, page_) {
+		this.name = key
+		page = page_
 	}
 
 	protected populateField(name, field) {
+
 		if (field.preAction) {
 			field.preAction.delegate = this
 			field.preAction()
@@ -72,25 +89,13 @@ abstract class FixturedTest extends BaseTest {
 		}
 	}
 	
-	protected loadInputSet(inputs) {
+	protected loadEntrySet(key, eset) {
 		to AnyPage
 		at AnyPage
-		inputs.each { name, field -> populateField(name, field) }
+		eset.fields.each { name, field -> populateField(name, field) }
 	}
 	
-	void testFixture(fixture, fixtureName) {
-		loadInputSet(fixture.inputs)
-		
-		fixture.results.each {
-			it.preAction.delegate = this
-			it.preAction()
-			it.gleaner.delegate = this
-			def results = it.gleaner()
-			def expected = it.expected
-			results.each { v, k -> 
-				assertEquals(expected[k], v, "for result $k")
-			}
-		}
+	protected readResultSet(key, rset) {
 	}
 	
 }
