@@ -1,4 +1,5 @@
 package fixtures
+import pages.PricingPage
 
 class Example {
 	static def fixtures = [
@@ -7,6 +8,7 @@ class Example {
 			inputs: [
 				url: "/products/appointment-label-cards-prices.html",
 				title: "Appointment Label Cards Price Quoter",
+				atPage: {at PricingPage},
 				values: [
 					style: [name: '147[]', value: 7462],	//AC-302
 					proof: [name: '64[]', value: '482'],	//online
@@ -16,7 +18,8 @@ class Example {
 			results: [
 				[
 					preAction: {},
-					gleaner: {},
+					gleaner: {
+					},
 					expected: [
 						Style: "AC-302 - Appointment Card with Heart Sticker",
 						Color: 'CMYK',

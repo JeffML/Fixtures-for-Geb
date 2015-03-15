@@ -15,12 +15,10 @@ import geb.junit4.*
 abstract class FixturedTest extends BaseTest {
 	private def final fixture
 	private def final fixtureName
-	private def final form
 	
-	FixturedTest(fixture, fixtureName, form) {
+	FixturedTest(fixture, fixtureName) {
 		this.fixture = fixture
 		this.fixtureName = fixtureName
-		this.form = form
 	}
 	
 	@Before
@@ -30,8 +28,7 @@ abstract class FixturedTest extends BaseTest {
 	}
 
 	protected populateField(name, field) {
-		def $form = $(form);
-		assertNotNull("Did not find form $form", $form)
+		assertNotNull("Did not find form $form", form)
 		
 		if (field.preAction) {
 			field.preAction.delegate = this
@@ -42,7 +39,7 @@ abstract class FixturedTest extends BaseTest {
 			doSelectorAction(field)
 		} else {
 			try {
-				$form[field.name] = field.value
+				form[field.name] = field.value
 			}
 			catch (org.openqa.selenium.ElementNotVisibleException e) {
 				throw new Exception("Exception accessing field $field.name", e)
@@ -79,19 +76,19 @@ abstract class FixturedTest extends BaseTest {
 		}
 	}
 	
-	protected loadInputSet(inputs) {
+	void testFixture() {
 		to AnyPage
 		at AnyPage
 		
-		inputs.each { name, field -> populateField(name, field) }
-	}
-	
-	void testFixture() {
-		loadInputSet(fixture.inputs.values)
+		fixture.inputs.atPage.delegate = this;
+		fixture.inputs.atPage()
+		
+		fixture.inputs.values.each { name, field -> populateField(name, field) }
 		
 		fixture.results.each {
 			it.preAction.delegate = this
 			it.preAction()
+			
 			it.gleaner.delegate = this
 			
 			def gleaned = it.gleaner()
