@@ -1,7 +1,6 @@
-# geb-fixtures
-Test fixtures for Geb
+# Fixtures for Geb
 
-A data-driven approach to populating and reading page data in Geb.
+A data-driven approach to populating forms and reading resultant page data in Geb.
 
 ## Fixture Components
   - url
