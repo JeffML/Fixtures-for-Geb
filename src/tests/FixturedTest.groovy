@@ -13,19 +13,26 @@ import geb.*
 import geb.junit4.*
 
 abstract class FixturedTest extends BaseTest {
-	def page;
-	def name;
-
-	@Before
-	void setup(url, title) {
-		AnyPage.url = url
-		AnyPage.titleText = title
+	private def final fixture
+	private def final fixtureName
+	private def final form
+	
+	FixturedTest(fixture, fixtureName, form) {
+		this.fixture = fixture
+		this.fixtureName = fixtureName
+		this.form = form
 	}
 	
-	FixturedTest() {
+	@Before
+	void setup() {
+		AnyPage.url = fixture.inputs.url
+		AnyPage.titleText = fixture.inputs.title
 	}
 
 	protected populateField(name, field) {
+		def $form = $(form);
+		assertNotNull("Did not find form $form", $form)
+		
 		if (field.preAction) {
 			field.preAction.delegate = this
 			field.preAction()
@@ -35,7 +42,7 @@ abstract class FixturedTest extends BaseTest {
 			doSelectorAction(field)
 		} else {
 			try {
-				form[field.name] = field.value
+				$form[field.name] = field.value
 			}
 			catch (org.openqa.selenium.ElementNotVisibleException e) {
 				throw new Exception("Exception accessing field $field.name", e)
@@ -75,20 +82,23 @@ abstract class FixturedTest extends BaseTest {
 	protected loadInputSet(inputs) {
 		to AnyPage
 		at AnyPage
+		
 		inputs.each { name, field -> populateField(name, field) }
 	}
 	
-	void testFixture(fixture, fixtureName) {
-		loadInputSet(fixture.inputs)
+	void testFixture() {
+		loadInputSet(fixture.inputs.values)
 		
 		fixture.results.each {
 			it.preAction.delegate = this
 			it.preAction()
 			it.gleaner.delegate = this
-			def results = it.gleaner()
+			
+			def gleaned = it.gleaner()
 			def expected = it.expected
-			results.each { v, k -> 
-				assertEquals(expected[k], v, "for result $k")
+			
+			gleaned.each { v, k -> 
+				assertEquals(expected[k], v, "for result $k in $fixtureName")
 			}
 		}
 	}
