@@ -1,5 +1,6 @@
 package fixtures
 import pages.PricingPage
+import pages.DetailsPage
 
 class Example {
 	static def fixtures = [
@@ -30,13 +31,47 @@ class Example {
 								gleaned.Proof = it.text().trim()
 							}
 						}
-						return gleaned;
+						return gleaned
 					},
 					expected: [
 						Quantity: "500",
 						Style: "AC - 302",
 						Proof: 'Online Proof'
-					]],
+					],
+				],
+				[
+					preAction: {
+						proceedToOrder.click()
+						waitFor(10) {at DetailsPage}
+					},
+					gleaner: {
+						def gleaned = [:]
+						def details = specs
+						
+						details.eachWithIndex {s, i ->
+							switch(i) {
+								case 0:
+									gleaned.Style = s.text()
+									break;
+								case 1:
+									gleaned.Color = s.text()
+									break;
+								case 2: 
+									gleaned.Proof = s.text()
+									break;
+								default:
+									break;
+							}
+						}
+						
+						return gleaned
+					},
+					expected: [
+						Style: "AC-302 - Appointment Card with Heart Sticker",
+						Color: "CMYK",
+						Proof: "Digital Proof"
+					]
+				]
 			]
 		]
 	]
