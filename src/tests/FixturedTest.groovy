@@ -77,25 +77,27 @@ abstract class FixturedTest extends BaseTest {
 	}
 	
 	void testFixture() {
+		def currPage = this;
+		
 		to AnyPage
 		at AnyPage
 		
-		fixture.inputs.atPage.delegate = this;
+		fixture.inputs.atPage.delegate = currPage;
 		fixture.inputs.atPage()
 		
 		fixture.inputs.values.each { name, field -> populateField(name, field) }
 		
 		fixture.results.each {
-			it.preAction.delegate = this
+			it.preAction.delegate = currPage
 			it.preAction()
 			
-			it.gleaner.delegate = this
+			it.gleaner.delegate = currPage
 			
 			def gleaned = it.gleaner()
 			def expected = it.expected
 			
-			gleaned.each { v, k -> 
-				assertEquals(expected[k], v, "for result $k in $fixtureName")
+			gleaned.each { k, v -> 
+				assertEquals("for result $k in $fixtureName", expected[k], v)
 			}
 		}
 	}

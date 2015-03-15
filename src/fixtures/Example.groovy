@@ -19,11 +19,23 @@ class Example {
 				[
 					preAction: {},
 					gleaner: {
+						def gleaned = [:]
+						floatDiv.floatingDivSpecs.each {
+							def classes = it.classes()
+							if (classes.contains('qty')) {
+								gleaned.Quantity = it.text()
+							} else if (classes.contains('147')) {
+								gleaned.Style = it.text().trim()
+							} else if (classes.contains('64')) {
+								gleaned.Proof = it.text().trim()
+							}
+						}
+						return gleaned;
 					},
 					expected: [
-						Style: "AC-302 - Appointment Card with Heart Sticker",
-						Color: 'CMYK',
-						Proof: 'Digital Proof'
+						Quantity: "500",
+						Style: "AC - 302",
+						Proof: 'Online Proof'
 					]],
 			]
 		]

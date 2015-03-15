@@ -1,6 +1,7 @@
 package pages
 
 import geb.Page
+import geb.Module
 import pages.modules.FloatingDiv
 
 class PricingPage extends Page {
