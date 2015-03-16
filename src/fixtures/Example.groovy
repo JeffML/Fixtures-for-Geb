@@ -69,7 +69,7 @@ class Example {
 					expected: [
 						Style: "AC-302 - Appointment Card with Heart Sticker",
 						Color: "CMYK",
-						Proof: "Digital Proof" //test
+						Proof: "Digital Proof" 
 					]
 				]
 			]
