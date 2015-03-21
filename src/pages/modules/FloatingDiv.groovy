@@ -1,6 +1,10 @@
 package pages.modules
 
+import java.util.Spliterator;
+import java.util.function.Consumer;
+
 import geb.Module
+import geb.navigator.Navigator;
 
 class FloatingDiv extends Module {
     static content = {

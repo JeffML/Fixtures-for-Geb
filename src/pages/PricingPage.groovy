@@ -3,6 +3,7 @@ package pages
 import geb.Page
 import geb.Module
 import pages.modules.FloatingDiv
+import pages.modules.ColorPalette
 
 class PricingPage extends Page {
 
@@ -15,5 +16,6 @@ class PricingPage extends Page {
 		form { $('form#maverick') }
 				
 		floatDiv(wait:true) {module FloatingDiv}
+		colorPalette {module ColorPalette}
 	}
 }

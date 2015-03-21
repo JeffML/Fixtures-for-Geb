@@ -35,10 +35,11 @@ abstract class FixturedTest extends BaseTest {
 			field.preAction()
 		}
 		
-		if (field.selector){
-			doSelectorAction(field)
+		if (field.action){
+			doAction(field)
 		} else {
 			try {
+				println "name is $name; $field.name, $field.value"
 				form[field.name] = field.value
 			}
 			catch (org.openqa.selenium.ElementNotVisibleException e) {
@@ -58,21 +59,10 @@ abstract class FixturedTest extends BaseTest {
 	}
 	
 
-	protected doSelectorAction(field) {
-		def isArray = field.selector instanceof java.util.Collection
-
-		def f = isArray? $(field.selector[0]) : $(field.selector)
-
-		if (isArray) {
-			f = f.filter(field.selector[1])
-		}
-
+	protected doAction(field) {
 		if (field.action) {
-			if (field.params != null) {
-				f."$field.action"(field.params)
-			} else {
-				f."$field.action"()  	// == f."click"() == f.click()
-			}
+			field.action.delegate = this;
+			field.action();
 		}
 	}
 	
