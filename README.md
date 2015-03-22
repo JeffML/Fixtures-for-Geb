@@ -35,6 +35,42 @@ class GoogleTest extends FixturedTest {
 }
 ```
 
+A fixtured test is essentially a wrapper around the base class FixturedTest, which does all the work of interpreting the fixture and executing actions on the page.  
+
+##Page Definitions
+Pages are defined as any other Geb Page. For input from fixture data, a form content must be defined. One special page is AnyPage, which is used by the fixture interpreter to navigate to a URL dynamically.
+
+```groovy
+import geb.Page
+
+class GooglePage extends Page {
+	static at = {title: "Google"}
+	static content = {
+		form { $('form', name: 'f') }
+	}
+}
+```
+## Fixtures
+Fixtures drive FixturedTests. Fixtures are defined as static structures inside a class. Each Fixture has a name. The top-level elements of a fixture are isActive, inputs, and results:
+
+### isActive
+The isActive flag indicates if the fixture is to be executed or ignored.
+
+### inputs
+The input structure consists of 
+* a target URL
+* a page title (for at checker)
+* an atPage closure, that 'converts' an AnyPage to a user-defined Page object
+* values
+
+#### values
+Value definitions are maps whose keys are user-friendly names for form fields.  A value fixture can contains
+* a preAction closure
+** this will be executed before any value is set
+* a name and value, or an action closure
+** both are intended to set the value of a form input; an action closure allows for more sophisticated input scenarios than simple ```form[name] = value``` situations.
+
+
 ## Fixture Components
   - url
   - title
