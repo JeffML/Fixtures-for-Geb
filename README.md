@@ -138,7 +138,7 @@ The example FixturedTests in this project use JUnit as the test framework. Futur
 
 ### command line
 * To run the GoogleTest, the command line is:
-``` gradle -Dtest.single=GoogleTest -Dhost.url=http://google.com clean chromeTest```
+  * ``` gradle -Dtest.single=GoogleTest -Dhost.url=http://google.com clean chromeTest```
 * For the ACWTest, the command line is:
-``` gradle -Dtest.single=ACWTest -Dhost.url=http://gmazzocato.altervista.org clean chromeTest```
+  * ``` gradle -Dtest.single=ACWTest -Dhost.url=http://gmazzocato.altervista.org clean chromeTest```
 
