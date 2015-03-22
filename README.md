@@ -93,11 +93,11 @@ Here, the input field named 'q' (search input field) is set to _Geb API 0.10_ an
 ### results
 There can be zero or more result fixtures associated with an input fixture. A result fixture consists of:
 * a preAction closure
-** this instructs the test what to do before attempting to 'glean' results
+  * this instructs the test what to do before attempting to 'glean' results
 * a gleaner closure
-** this builds a _gleaned_ map of actual results. The data to be gleaned can be defined by a Page definition, or by selectors inside the closure. 
+  * this builds a _gleaned_ map of actual results. The data to be gleaned can be defined by a Page definition, or by selectors inside the closure. 
 * expected
-** compared against the gleaned map
+  * compared against the gleaned map
 
 For our Google search for Geb's API, we might define the following result fixture:
 ```groovy
