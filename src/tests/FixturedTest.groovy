@@ -1,16 +1,12 @@
 package tests
 
 import static org.junit.Assert.*
-
-import org.junit.Before
-import org.openqa.selenium.JavascriptExecutor
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver
-
-import tests.BaseTest
-import pages.AnyPage
 import geb.*
 import geb.junit4.*
+
+import org.junit.Before
+
+import pages.AnyPage
 
 abstract class FixturedTest extends BaseTest {
 	private def final fixture
@@ -39,7 +35,6 @@ abstract class FixturedTest extends BaseTest {
 			doAction(field)
 		} else {
 			try {
-				println "name is $name; $field.name, $field.value"
 				form[field.name] = field.value
 			}
 			catch (org.openqa.selenium.ElementNotVisibleException e) {
@@ -87,7 +82,9 @@ abstract class FixturedTest extends BaseTest {
 			def expected = it.expected
 			
 			gleaned.each { k, v -> 
-				assertEquals("for result $k in $fixtureName", expected[k], v)
+				if (expected[k]) {
+					assertEquals("for result $k in $fixtureName", expected[k], v)
+				}
 			}
 		}
 	}

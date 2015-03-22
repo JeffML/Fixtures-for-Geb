@@ -2,18 +2,19 @@ package tests
 
 import org.junit.Test
 
-import fixtures.Example
+import fixtures.GoogleGeb
 
-class RollLabelTest extends FixturedTest {
+
+class GoogleTest extends FixturedTest {
 	static def final fixtureName;
 	static def final fixture;
 
 	static {
-		fixtureName = "Roll Labels"
-		fixture = Example.fixtures[fixtureName]
+		fixtureName = "Search"
+		fixture = GoogleGeb.fixtures[fixtureName]
 	}
 	
-	RollLabelTest() {
+	GoogleTest() {
 		super(fixture, fixtureName)
 	}
 	

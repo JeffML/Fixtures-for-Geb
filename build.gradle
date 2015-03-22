@@ -49,7 +49,7 @@ drivers.each { driver ->
 	def testSingle = System.getProperty("test.single")
 	if (testSingle) System.setProperty("${driver}Test.single", testSingle)
 	
-	def hostUrl = System.getProperty("host.url", "http://dev.mavericklabel.com")
+	def hostUrl = System.getProperty("host.url")
 
 	
 	task "${driver}Test"(type: Test) {
