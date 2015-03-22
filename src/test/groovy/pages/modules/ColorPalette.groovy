@@ -1,10 +1,7 @@
 package pages.modules
 
-import java.util.Spliterator;
-import java.util.function.Consumer;
-
 import geb.Module
-import geb.navigator.Navigator;
+
 
 class ColorPalette extends Module {
 	static def content = {

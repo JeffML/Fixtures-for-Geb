@@ -1,12 +1,10 @@
-package tests
+package f4g
 
 import static org.junit.Assert.*
 import geb.*
 import geb.junit4.*
 
 import org.junit.Before
-
-import pages.AnyPage
 
 abstract class FixturedTest extends BaseTest {
 	private def final fixture
@@ -73,8 +71,10 @@ abstract class FixturedTest extends BaseTest {
 		fixture.inputs.values.each { name, field -> populateField(name, field) }
 		
 		fixture.results.each {
-			it.preAction.delegate = currPage
-			it.preAction()
+			if (it.preAction) {
+				it.preAction.delegate = currPage
+				it.preAction()
+			}
 			
 			it.gleaner.delegate = currPage
 			

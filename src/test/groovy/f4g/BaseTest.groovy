@@ -1,4 +1,4 @@
-package tests
+package f4g
 
 import static org.junit.Assert.*
 import geb.junit4.GebReportingTest

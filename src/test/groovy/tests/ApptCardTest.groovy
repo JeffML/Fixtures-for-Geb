@@ -1,7 +1,7 @@
 package tests
 
 import org.junit.Test
-
+import f4g.FixturedTest;
 import fixtures.Example
 
 class ApptCardTest extends FixturedTest {

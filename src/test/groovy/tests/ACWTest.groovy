@@ -2,19 +2,20 @@ package tests
 
 import org.junit.Test
 
-import fixtures.Example
-
 import f4g.FixturedTest;
-class RollLabelTest extends FixturedTest {
+import fixtures.AccessibilityColorWheel
+
+
+class ACWTest extends FixturedTest {
 	static def final fixtureName;
 	static def final fixture;
 
 	static {
-		fixtureName = "Roll Labels"
-		fixture = Example.fixtures[fixtureName]
+		fixtureName = "Foreground"
+		fixture = AccessibilityColorWheel.fixtures[fixtureName]
 	}
 	
-	RollLabelTest() {
+	ACWTest() {
 		super(fixture, fixtureName)
 	}
 	

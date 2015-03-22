@@ -1,4 +1,4 @@
-package tests
+package f4g
 
 import geb.junit4.GebReportingTest;
 

@@ -29,6 +29,10 @@ class GoogleGeb {
 					},
 					gleaner: {
 						def gleaned = [:]
+						if (enableFrames.present) {
+							enableFrames.click()
+						}
+						
 						withFrame($('frame', name: 'packageListFrame'), {
 							def packages = $('ul', title: 'Packages').find('li a')
 							packages.eachWithIndex { p, i ->

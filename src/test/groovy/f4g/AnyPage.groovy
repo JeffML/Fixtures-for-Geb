@@ -1,4 +1,4 @@
-package pages
+package f4g
 
 
 import geb.Page

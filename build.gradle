@@ -7,6 +7,7 @@ repositories {
 	//jcenter()
 }
 
+
 configurations {
 	testCompile.transitive = true
 }
@@ -36,6 +37,7 @@ dependencies {
 			testCompile "org.seleniumhq.selenium:selenium-support:$seleniumVersion"
 	}
 }
+
 
 tasks.withType(GroovyCompile) {
 	configure(groovyOptions.forkOptions) {
