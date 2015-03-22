@@ -11,7 +11,5 @@ bin
 .classpath
 .project
 build/*
-chromeTest/**
-firefoxTest/**
-chromeTest/tests
-firefoxTest/tests
+chromeTest/*
+firefoxTest/*
