@@ -13,3 +13,5 @@ bin
 build/*
 chromeTest/**
 firefoxTest/**
+chromeTest/tests
+firefoxTest/tests
