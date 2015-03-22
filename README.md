@@ -137,7 +137,8 @@ In the expected part of this result fixture, we do a partial comparison of the g
 The example FixturedTests in this project use JUnit as the test framework. Future versions will support other frameworks. The .gradle.properties settings may have to be changed for your environment.  JDK 1.8 is required.
 
 ### command line
-To run the GoogleTest, the command line is:
-```gradle -Dtest.single=GoogleTest -Dhost.url=http://google.com clean chromeTest```
-
+* To run the GoogleTest, the command line is:
+``` gradle -Dtest.single=GoogleTest -Dhost.url=http://google.com clean chromeTest```
+* For the ACWTest, the command line is:
+``` gradle -Dtest.single=ACWTest -Dhost.url=http://gmazzocato.altervista.org clean chromeTest```
 
