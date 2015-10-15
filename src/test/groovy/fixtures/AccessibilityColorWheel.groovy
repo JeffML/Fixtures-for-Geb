@@ -24,13 +24,13 @@ class AccessibilityColorWheel extends Fixture{
 			],
 			results: [
 				//using selectors here, but these fields could be defined in page content
-				deut: [actual: {$('#c10').value()}, expected:"#0b1c9f"],
-				prota: [actual: {$('#c20').value()}, expected:"#0006ae"],
-				trita: [actual: {$('#c30').value()}, expected:"#8c0208"],
+				deut: [actual: [selector:'#c10', type: 'value'], expected:"#0b1c9f"],
+				prota: [actual: [selector:'#c20', type: 'value'], expected:"#0006ae"],
+				trita: [actual: [selector:'#c30', type: 'value'], expected:"#8c0208"],
 				(cl()): { buttons.invert.click() },
-				deut2: [actual: {$('#c11').value()}, expected:"#0b1c9f"],
-				prota2: [actual: {$('#c21').value()}, expected:"#0006ae"],
-				trita2: [actual: {$('#c31').value()}, expected:"#8c0208"],
+				deut2: [actual: [selector:'#c11', type: 'value'], expected:"#0b1c9f"],
+				prota2: [actual: [selector:'#c21', type: 'value'], expected:"#0006ae"],
+				trita2: [actual: [selector:'#c31', type: 'value'], expected:"#8c0208"],
 			]
 		]
 	]

@@ -57,10 +57,14 @@ abstract class FixturedTest extends BaseTest {
 				it.value.delegate = me
 				it.value()
 			} else {
+				def t = value.actual.type
+				def s = $(value.actual.selector)
+				def v = t == 'value'? s.value() : s.text()
+
 				if (value.expected instanceof Pattern) {
-					assertTrue("$it.key was $value.actual; expected to match $value.expected", value.actual =~ value.expected)
+					assertTrue("$it.key was $v; expected to match $value.expected", v =~ value.expected)
 				} else {
-					assertEquals("$it.key was $value.actual; expected $value.expected", value.expected, value.actual);
+					assertEquals("$it.key was $v; expected $value.expected", value.expected, v);
 				} 
 			}
 		}

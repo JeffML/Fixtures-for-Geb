@@ -64,74 +64,66 @@ The input structure consists of
 * values
 
 #### values
-Value definitions are maps whose keys are user-friendly names for form fields.  A value fixture can contains
-* a preAction closure
-** this will be executed before any value is set
-* a name and value, or an action closure
-** both are intended to set the value of a form input; an action closure allows for more sophisticated input scenarios than simple ```form[name] = value``` situations.
-* a postAction closure
-** this is executed after the form input value is assigned; useful for cases where a button needs to be clicked or blur event triggered.
-
-A values map with single value for inputting a google search term on Google's home page might look as follows:
-```groovy
-		"Search": [
-			isActive: true,
-			inputs: [
-				url: "/",
-				title: "Google",
-				atPage: { at GooglePage },
-				values: [
-					input: [name: 'q', value: "Geb API 0.10", postAction: {
-							$('input', name: 'q') << Keys.ENTER
-						}],
-				]
-			],
-```
-
-Here, the input field named 'q' (search input field) is set to _Geb API 0.10_ and the postAction sends an ENTER key to the field after the input has been set (this triggers the search).
+Value definitions are maps whose keys are user-friendly names for form fields.  A value definition can contain
+* form field name and value to set
+    * a form has to be defined in the page definition (the one the test is running against)
+        * example:  ```field1: "foo"```  (this is equivalent to ```form[name] = value``` in Geb)
+* a closure
+    * closure keys must begin with "_CLOSURE_"; there is a helper method cl() that generates closure names:
+        * ```(cl()): {clear(color1); color1.value("#a0a")},```
 
 ### results
-There can be zero or more result fixtures associated with an input fixture. A result fixture consists of:
-* a preAction closure
-  * this instructs the test what to do before attempting to 'glean' results
-* a gleaner closure
-  * this builds a _gleaned_ map of actual results. The data to be gleaned can be defined by a Page definition, or by selectors inside the closure. 
-* expected
-  * compared against the gleaned map
+There can be zero or more result fixtures associated with an input fixture. A result fixture is a map containing:
+* a unique arbitrary key (for test failure output only)
+  * a map, containing 
+    * actual (a map) containing a selector and type ('text' or 'value')
+    * expected containing the expected value (or text)
+* or, a _CLOSURE_ key (see cl() helper method, above)
+  * a closure containing actions to be performed 
 
 For our Google search for Geb's API, we might define the following result fixture:
 ```groovy
-			results: [
-				[
-					preAction: {
-						waitFor(10) {at GoogleResultPage}
-						links[0].click()
-						waitFor(10) {at GebishApiPage}
-					},
-					gleaner: {
-						def gleaned = [:]
-						withFrame($('frame', name: 'packageListFrame'), {
-							def packages = $('ul', title: 'Packages').find('li a')
-							packages.eachWithIndex { p, i ->
-								gleaned[i] = p.text();
-							}
-						})
-						return gleaned
-					},
-					expected: [
-						0: "geb",
-						1: "geb.binding",
-						3: 'geb.content',
-						5: 'geb.download.helper',
-						//6: 'geb.foo'
-					],
-				],
-```
-After the ENTER key was sent to the search input field via the input fixture, we expect to wind up at a Google results page. We have a Geb Page definition for that, with content that contains _links_.  The preAction clicks the first one, and waits for the Geb API page to appear.
+        results: [
+            (cl()): {
+                waitFor(10) {
+                    at GoogleResultPage
+                }
+                links[0].click()
+                waitFor(10) {
+                    at GebishApiPage
+                }
+            },
+            (cl()): {
+                def gleaned = [:]
 
-The gleaner then builds a _gleaned_ map for comparison with the results we expect. In this case, we have to deal with frames, so we use Geb's withFrame method to track down the package list for Geb. We store each package in the _gleaned_ map.
+                if (enableFrames.present) {
+                    enableFrames.click()
+                }
 
-In the expected part of this result fixture, we do a partial comparison of the gleaned map against some values we expect it to have.
+                withFrame($('frame', name: 'packageListFrame'), {
+                    def packages = $('ul', title: 'Packages').find('li a')
+                    packages.eachWithIndex {
+                        p, i ->
+                        gleaned[i] = p.text();
+                    }
+                })
+
+                compare(gleaned, [
+                    0: "geb",
+                    1: "geb.binding",
+                    3: 'geb.content',
+                    5: 'geb.download.helper',
+                    //6: 'geb.foo'
+                ])
+            }
+        ]```
+After the ENTER key was sent to the search input field via the input fixture, we expect to wind up at a Google results page. 
+We have a Geb Page definition for that, with content that contains _links_.  The first link is clicked, then we wait for the Geb API page to appear.
+
+A second closure is run that 'gleans' data from the links presented. In this case, we have to deal with frames, so we use Geb's withFrame method 
+to track down the package list for Geb. We store each package in the _gleaned_ map.
+
+We now use the Fixture class' compare() method which expects two maps, the first being the data gleaned and the second containing expected values for (some or all) keys
 
 ## Running the examples
 The example FixturedTests in this project use JUnit as the test framework. Future versions will support other frameworks. The .gradle.properties settings may have to be changed for your environment.  JDK 1.8 is required.
@@ -142,3 +134,6 @@ The example FixturedTests in this project use JUnit as the test framework. Futur
 * For the ACWTest, the command line is:
   * ``` gradle -Dtest.single=ACWTest -Dhost.url=http://gmazzocato.altervista.org clean chromeTest```
 
+#History
+* 0.1 -- initial release
+* 0.2 -- changed from a DSLish fixture to one that is scriptish
