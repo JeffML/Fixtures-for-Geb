@@ -116,7 +116,8 @@ For our Google search for Geb's API, we might define the following result fixtur
                     //6: 'geb.foo'
                 ])
             }
-        ]```
+        ]
+```
 After the ENTER key was sent to the search input field via the input fixture, we expect to wind up at a Google results page. 
 We have a Geb Page definition for that, with content that contains _links_.  The first link is clicked, then we wait for the Geb API page to appear.
 
