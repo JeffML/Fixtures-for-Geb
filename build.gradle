@@ -17,10 +17,10 @@ ext {
 	drivers = ["chrome", "firefox"] 
 
 	ext {
-		groovyVersion = '2.3.6'
+		groovyVersion = '2.4.3'
 		gebVersion = '0.10.0'
-		seleniumVersion = '2.45.0'
-		chromeDriverVersion = '2.14'
+		seleniumVersion = '2.47.1'
+		chromeDriverVersion = '2.16'
 	}
 }
 

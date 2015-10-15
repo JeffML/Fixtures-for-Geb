@@ -1,13 +1,14 @@
 package fixtures
 
-import pages.AccessibilityColorWheelPage
 import org.openqa.selenium.Keys
 
-class AccessibilityColorWheel {
+import pages.AccessibilityColorWheelPage
+import f4g.Fixture
+
+class AccessibilityColorWheel extends Fixture{
 	static void clear(c){
 		c << Keys.BACK_SPACE * 4
 	}
-	
 	static def fixtures = [
 		"Foreground": [
 			isActive: true,
@@ -16,40 +17,20 @@ class AccessibilityColorWheel {
 				title: "Accessibility Color Wheel",
 				atPage: {at AccessibilityColorWheelPage},
 				values: [
-					color1: [action: { clear(color1); color1.value("#a0a")}],
-					color2: [action: { clear(color2); color2.value("#0a0")}, postAction: {buttons.update.click()}],
+					(cl()): {clear(color1); color1.value("#a0a")},
+					(cl()): {clear(color2); color2.value("#0a0")},
+					(cl()): {buttons.update.click()}
 				]
 			],
 			results: [
-				[
-					gleaner: {
-						def gleaned = [:]
-						//using selectors here, but these fields could be defined in page content
-						gleaned.deut = $('#c10').value()
-						gleaned.prota = $('#c20').value()
-						gleaned.trita = $('#c30').value()
-						return gleaned;
-					},
-					expected: [
-						deut: "#0b1c9f",
-						prota: "#0006ae",
-						trita: "#8c0208"
-					]],
-				[
-					preAction: { buttons.invert.click(); },
-					gleaner: {
-						def gleaned = [:]
-						gleaned.deut = $('#c11').value()
-						gleaned.prota = $('#c21').value()
-						gleaned.trita = $('#c31').value()
-						return gleaned;
-					},
-					expected: [
-						deut: "#0b1c9f",
-						prota: "#0006ae",
-						trita: "#8c0208"
-					]],
-
+				//using selectors here, but these fields could be defined in page content
+				deut: [actual: {$('#c10').value()}, expected:"#0b1c9f"],
+				prota: [actual: {$('#c20').value()}, expected:"#0006ae"],
+				trita: [actual: {$('#c30').value()}, expected:"#8c0208"],
+				(cl()): { buttons.invert.click() },
+				deut2: [actual: {$('#c11').value()}, expected:"#0b1c9f"],
+				prota2: [actual: {$('#c21').value()}, expected:"#0006ae"],
+				trita2: [actual: {$('#c31').value()}, expected:"#8c0208"],
 			]
 		]
 	]
